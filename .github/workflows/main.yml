@@ -1,0 +1,24 @@
+name: main
+on:
+  push:
+    tags:
+    - '*'
+jobs:
+  main:
+    runs-on: windows-2022
+    steps:
+      - run: |
+          curl -L -o x86_64-8.1.0-release-posix-sjlj-rt_v6-rev0.7z "https://sourceforge.net/projects/mingw-w64/files/Toolchains targetting Win64/Personal Builds/mingw-builds/8.1.0/threads-posix/sjlj/x86_64-8.1.0-release-posix-sjlj-rt_v6-rev0.7z"
+          curl -L -o x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z "https://sourceforge.net/projects/mingw-w64/files/Toolchains targetting Win64/Personal Builds/mingw-builds/8.1.0/threads-posix/seh/x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z"
+          curl -L -o x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0.7z "https://sourceforge.net/projects/mingw-w64/files/Toolchains targetting Win64/Personal Builds/mingw-builds/8.1.0/threads-win32/sjlj/x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0.7z"
+          curl -L -o x86_64-8.1.0-release-win32-seh-rt_v6-rev0.7z "https://sourceforge.net/projects/mingw-w64/files/Toolchains targetting Win64/Personal Builds/mingw-builds/8.1.0/threads-win32/seh/x86_64-8.1.0-release-win32-seh-rt_v6-rev0.7z"
+        shell: cmd
+      - uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            x86_64-8.1.0-release-posix-sjlj-rt_v6-rev0.7z
+            x86_64-8.1.0-release-posix-seh-rt_v6-rev0.7z
+            x86_64-8.1.0-release-win32-sjlj-rt_v6-rev0.7z
+            x86_64-8.1.0-release-win32-seh-rt_v6-rev0.7z
+        if: startsWith(github.ref, 'refs/tags/')
+        name: release
